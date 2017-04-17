@@ -1,5 +1,6 @@
 # coding:utf-8
 from rqalpha.data.base_data_source import BaseDataSource
+from rqalpha.utils.datetime_func import convert_int_to_datetime
 import pandas as pd
 import easyutils
 import datetime
@@ -36,6 +37,7 @@ def history(stock_code, market=None, bundle_path='~/.rqalpha/bundle'):
         stock_code += '.XSHE'
     raw = d._all_day_bars_of(stock_map[stock_code])
     df = pd.DataFrame.from_dict(raw)
+    df["datetime"] = df["datetime"].apply(convert_int_to_datetime)
     df.set_index('datetime', inplace=True)
     return df
 
